@@ -4,34 +4,11 @@
  * a URL /exec para FORM_ENDPOINT em assets/app.js após a revisão de privacidade.
  */
 const SPREADSHEETS = {
-  career: "10itYj5Df-juN5mnYr4PqlZpwR8NaJhXhPjfxSqhkdkk",
-  insurance: "1YXRG4_0gVAev6xnQkj6z8CBLmSa5xLUPP3oIaylQkwU"
+  career: "1YXRG4_0gVAev6xnQkj6z8CBLmSa5xLUPP3oIaylQkwU",
+  insurance: "10itYj5Df-juN5mnYr4PqlZpwR8NaJhXhPjfxSqhkdkk"
 };
 const TAB_NAMES = {career:"Leads - Carreira", insurance:"Leads - Seguro"};
 const HEADERS = ["Recebido em","Nome","WhatsApp","E-mail","Cidade / Estado","Interesse","Consentimento de contato","Origem"];
-const CAPTURE_URLS = {
-  career: "https://raullosbuenos-prog.github.io/metlife-legends/carreira/",
-  insurance: "https://raullosbuenos-prog.github.io/metlife-legends/seguro/"
-};
-
-// Run once after publishing to add the right page link to each workbook.
-// This adds a dedicated tab and preserves existing data and tabs.
-function setupLinks() {
-  const rows = {
-    career: [["Página de captura", "URL"], ["Conheça a Equipe Legends", CAPTURE_URLS.career]],
-    insurance: [["Página de captura", "URL"], ["Converse sobre proteção", CAPTURE_URLS.insurance]]
-  };
-  Object.keys(SPREADSHEETS).forEach(function(kind) {
-    const book = SpreadsheetApp.openById(SPREADSHEETS[kind]);
-    const name = "Links de captura";
-    const sheet = book.getSheetByName(name) || book.insertSheet(name);
-    sheet.getRange(1, 1, rows[kind].length, 2).setValues(rows[kind]);
-    sheet.getRange(2, 2).setFormula('=HYPERLINK("' + CAPTURE_URLS[kind] + '","Abrir página")');
-    sheet.setFrozenRows(1);
-    sheet.autoResizeColumns(1, 2);
-  });
-}
-
 function doPost(e) {
   try {
     const p = (e && e.parameter) || {};
